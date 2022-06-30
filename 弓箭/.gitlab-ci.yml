@@ -1,0 +1,71 @@
+stages:
+  - build
+
+.unity_before_script: &unity_before_script
+  before_script:
+    - cd  /Users/macm1/bow_android_shell
+  script:
+    - chmod +x ./BuildAndroidGJDev.sh && ./BuildAndroidGJDev.sh
+  
+.unity_android_res_before_script: &unity_android_res_before_script
+  before_script:
+    - cd  /Users/macm1/bow_android_res_shell
+  script:
+    - chmod +x ./BuildAndroidGJDev.sh && ./BuildAndroidGJDev.sh
+
+
+.update-android: &update-android
+  stage: build
+  <<: *unity_before_script
+  # <<: *unity_before_script
+  # cache:
+  #   key: "gs-android-$UNITY3D_CHANNEL"
+  #   paths:
+  #     - Library/
+
+Dev-android-internal: &Dev-android-internal
+  stage: build
+  <<: *update-android
+  variables:
+    UNITY3D_BRANCH_NAME: garden
+    UNITY3D_BUILD_METHOD: BuildSteps.BuildAndroidFullByteDance
+    UNITY3D_BUILD_RES_METHOD: LPCFramework.AddressableTool.AddressableNewBuild_Test
+    GAME_NAME: GJ_lightpaw_test_
+    NAME: 弓箭内部测试包
+    
+    GIT_SUBMODULE_STRATEGY: recursive
+  only:
+    refs:
+      - garden
+    variables:
+      - $TRIGGER == "android-internal"
+  
+Dev-android-external: &Dev-android-external
+  stage: build
+  <<: *update-android
+  variables:
+    UNITY3D_BRANCH_NAME: garden
+    UNITY3D_BUILD_METHOD: BuildSteps.BuildStableTest
+    UNITY3D_BUILD_RES_METHOD: LPCFramework.AddressableTool.AddressableNewBuild_Test
+    GAME_NAME: GJ_lightpaw_test_
+    NAME: 弓箭对外体验包
+
+    GIT_SUBMODULE_STRATEGY: recursive
+  only:
+    refs:
+      - garden
+    variables:
+      - $TRIGGER == "android-external"
+
+Res-android-test: &Res-android-test
+  stage: build
+  <<: *unity_android_res_before_script
+  variables:
+    UNITY3D_BRANCH_NAME: garden
+    BUILD_COMMAND: LPCFramework.AddressableTool.AddressableUpdateBuildTest
+    GIT_SUBMODULE_STRATEGY: recursive
+  only:
+    refs:
+      - garden
+    variables:
+      - $TRIGGER == "android-res"

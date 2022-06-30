@@ -1,0 +1,246 @@
+stages:
+  - build
+
+.Dev-build: &Dev-build
+  before_script:
+  script:
+    - cd /Users/lightpaw/Documents/Diablo-android-shell
+    - chmod +x ./BuildAndroidDev.sh && ./BuildAndroidDev.sh
+
+TE1-RES-android: &TE1-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_TE1.sh && ./BuildAndroidRes_TE1.sh
+  only:    
+    refs:
+      - develop1    
+    variables:
+      - $TRIGGER == "TE1"
+
+GP-RES-android: &GP-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_GP.sh && ./BuildAndroidRes_GP.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseGP
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseGP   
+    variables:
+      - $TRIGGER == "GP" 
+
+GP1-RES-android: &GP1-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_GP1.sh && ./BuildAndroidRes_GP1.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseGP.1
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseGP.1   
+    variables:
+      - $TRIGGER == "GP1"
+
+TW-RES-android: &TW-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_TW.sh && ./BuildAndroidRes_TW.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseTW
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseTW   
+    variables:
+      - $TRIGGER == "TW"
+
+ENG-RES-android: &ENG-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_ENG_ali.sh && ./BuildAndroidRes_ENG_ali.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseENG
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseENG
+    variables:
+      - $TRIGGER == "ENG"
+
+CN-RES-android: &CN-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_CN.sh && ./BuildAndroidRes_CN.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseCN
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseCN
+    variables:
+      - $TRIGGER == "CN"
+BC-RES-android: &BC-RES-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_BC.sh && ./BuildAndroidRes_BC.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseBaiCai
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternPlugin    
+  only:    
+    refs:
+      - releaseBaiCai
+    variables:
+      - $TRIGGER == "BC"
+
+GP-RES-android-init: &GP-RES-android-init
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidRes_GP.sh && ./BuildAndroidRes_GP.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseGP
+    UNITY3D_BUILD_METHOD: ABSourceDiabloTools.BuildAndroidResExternInitPlugin 
+  only:    
+    refs:
+      - releaseGP   
+    variables:
+      - $TRIGGER == "GPInit" 
+
+GP-RES-ios: &GP-RES-ios
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-ios-shell
+      - chmod +x ./BuildIOSRes_GP.sh && ./BuildIOSRes_GP.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseGP   
+  only:    
+    refs:
+      - releaseGP   
+    variables:
+      - $TRIGGER == "GPIOS" 
+
+GP1-RES-ios: &GP1-RES-ios
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-ios-shell
+      - chmod +x ./BuildIOSRes_GP1.sh && ./BuildIOSRes_GP1.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseGP.1  
+  only:    
+    refs:
+      - releaseGP.1 
+    variables:
+      - $TRIGGER == "GPIOS1"
+
+TW-RES-ios: &TW-RES-ios
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-ios-shell
+      - chmod +x ./BuildIOSRes_TW.sh && ./BuildIOSRes_TW.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseTW 
+  only:    
+    refs:
+      - releaseTW 
+    variables:
+      - $TRIGGER == "TWIOS"
+
+ENG-RES-ios: &ENG-RES-ios
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-ios-shell
+      - chmod +x ./BuildIOSRes_ENG_ali.sh && ./BuildIOSRes_ENG_ali.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseENG 
+  only:    
+    refs:
+      - releaseENG 
+    variables:
+      - $TRIGGER == "ENGIOS"
+
+CN-RES-ios: &CN-RES-ios
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-ios-shell
+      - chmod +x ./BuildIOSRes_CN.sh && ./BuildIOSRes_CN.sh
+  variables:
+    UNITY3D_BRANCH_NAME: releaseCN 
+  only:    
+    refs:
+      - releaseCN 
+    variables:
+      - $TRIGGER == "CNIOS"
+
+Banshu-android: &Banshu-android
+  stage: build
+  before_script:
+  script:
+      - cd /Users/lightpaw/Documents/Diablo-android-shell
+      - chmod +x ./BuildAndroidBanshu.sh && ./BuildAndroidBanshu.sh
+  only:    
+    refs:
+      - develop_版署包    
+    variables:
+      - $TRIGGER == "Banshu"
+
+Dev-android: &Dev-android
+  stage: build
+  <<: *Dev-build
+  variables:
+    UNITY3D_CHANNEL: TE1
+    UNITY3D_BUILD_METHOD: BuildSteps.BuildAndroidUpdateInternal
+    UNITY3D_BRANCH_NAME: develop1
+  only:
+    refs:
+      - develop1
+    variables:
+      - $TRIGGER == "Test"
+
+Dev-android: &Dev-android-mono
+  stage: build
+  <<: *Dev-build
+  variables:
+    UNITY3D_CHANNEL: TE1
+    UNITY3D_BUILD_METHOD: BuildSteps.BuildAndroidUpdateInternalMono
+    UNITY3D_BRANCH_NAME: develop1
+  only:
+    refs:
+      - develop1
+    variables:
+      - $TRIGGER == "TestMono"
+
+
+GP-android: &GP-android
+  stage: build
+  <<: *Dev-build
+  variables:
+    UNITY3D_CHANNEL: GP
+    UNITY3D_BUILD_METHOD: BuildSteps.BuildAndroidUpdateGP
+    UNITY3D_BRANCH_NAME: releaseGP
+  only:
+    refs:
+      - releaseGP
+    variables:
+      - $TRIGGER == "GP-Prod"
